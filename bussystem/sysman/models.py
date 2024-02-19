@@ -6,33 +6,54 @@ class User(AbstractUser):
     pass
 
 
+class BaseModel(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, null=True)
+    active = models.BooleanField(default=True)
 
+    class Meta:
+        abstract = True
 
-class Destination(models.Model):
+class Destination(BaseModel):
     name = models.CharField(max_length=50, null=False)
 
     def __str__(self):
         return self.name
 
-class SpecialOccasion(models.Model):
+class SpecialOccasion(BaseModel):
     name = models.CharField(max_length=255, null=False)
     description = models.TextField()
 
     def __str__(self):
         return self.name
 
-class Bus(models.Model):
+class Bus(BaseModel):
     model = models.CharField(max_length=50, null=False)
     bienso = models.CharField(max_length=100, null=False)
-    capacity = models.IntegerField(max_length=30, null=False)
+    capacity = models.IntegerField(default=45, null=False)
 
     def __str__(self):
         return self.model
-
-class TripPath(models.Model):
-    des_departed = models.ForeignKey(Destination, null=True, on_delete=True)
-    des_arrived = models.ForeignKey(Destination, null=True, on_delete=True)
+#
+class TripPath(BaseModel):
+    departure_destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='departure')
+    arrival_destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='arrival')
     price = models.DecimalField(max_digits=8, decimal_places=0)
 
 class Trip(models.Model):
-    trip_depart_time = models.DateTimeField(null=False, blank=True)
+    trip_depart_time = models.DateTimeField(null=True, blank=True)
+    trip_arrive_time = models.DateTimeField(null=True, blank=True)
+    trip_path = models.ForeignKey(TripPath, null=True, on_delete=models.CASCADE)
+    bus = models.OneToOneField(Bus, on_delete=models.CASCADE)
+
+class Seat(models.Model):
+    name = models.CharField(max_length=50, null=True)
+    bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.name
+# class Ticket(BaseModel):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     qr_image = models.CharField(max_length=100, null=True)
+
+
