@@ -37,12 +37,16 @@ class Bus(BaseModel):
         return self.model
 #
 class TripPath(BaseModel):
+
     departure_destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='departure')
     arrival_destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='arrival')
     price = models.DecimalField(max_digits=8, decimal_places=0)
 
     class Meta:
         unique_together = ('departure_destination', 'arrival_destination')
+
+    def __str__(self):
+        return f"{self.departure_destination} {self.arrival_destination}"
 
 class Trip(models.Model):
     trip_depart_time = models.DateTimeField(null=True, blank=True)

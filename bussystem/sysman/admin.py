@@ -27,6 +27,9 @@ class TripAdmin(admin.ModelAdmin):
         'trip_path',
         'bus'
     )
+    list_display = ['id', 'trip_depart_time', 'trip_arrive_time', 'bus', 'trip_path']
+
+
 
 # Register your models here.
 admin.site.register(Destination, DestinationAdmin)
