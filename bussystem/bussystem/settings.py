@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sysman.apps.SysmanConfig'
+    'sysman.apps.SysmanConfig',
+    'ckeditor',
+    'ckeditor_uploader'
 ]
 
 import pymysql
@@ -87,6 +89,9 @@ DATABASES = {
     }
 }
 
+MEDIA_ROOT = '%s/sysman/static/' % BASE_DIR
+
+CKEDITOR_UPLOAD_PATH = "ckeditor/images"
 
 AUTH_USER_MODEL = 'sysman.User'
 
