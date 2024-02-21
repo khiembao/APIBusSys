@@ -1,3 +1,5 @@
+from django.db.models import Count
+
 from .models import Destination, Bus, TripPath
 
 def load_trip_path(params={}):
@@ -11,3 +13,5 @@ def load_trip_path(params={}):
     if arr_des:
         q = q.filter(arrival_destination_id=arr_des)
 
+def count_trip_path_by_destination():
+    pass
