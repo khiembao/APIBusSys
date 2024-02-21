@@ -13,5 +13,8 @@ def load_trip_path(params={}):
     if arr_des:
         q = q.filter(arrival_destination_id=arr_des)
 
-def count_trip_path_by_destination():
-    pass
+def count_departure_by_destination():
+    return Destination.objects.annotate(count=Count('departure')).values("id", "name", "count").order_by('-count')
+
+def count_arrival_by_destination():
+    return Destination.objects.annotate(count=Count('arrival')).values("id", "name", "count").order_by('-count')

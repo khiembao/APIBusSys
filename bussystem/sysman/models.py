@@ -35,6 +35,10 @@ class Bus(BaseModel):
 
     def __str__(self):
         return self.model
+
+    @property
+    def available_seat(self):
+        return 41
 #
 class TripPath(BaseModel):
     departure_destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='departure')

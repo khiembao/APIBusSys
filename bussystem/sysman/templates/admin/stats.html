@@ -2,4 +2,80 @@
 
 {% block content %}
 <h1>STATS OF BUS SYSTEM</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h2>Stats of departure count by destination</h2>
+<ul>
+    {% for sd in stats_departure %}
+        <li><strong>{{ sd.name }}</strong>: {{ sd.count }}</li>
+    {% endfor %}
+</ul>
+<canvas id="departureChart"></canvas>
+<script>
+    let labels = [];
+    let values = [];
+    let labels1 = [];
+    let values1 = [];
+
+    {% for sd in stats_departure %}
+        values.push('{{ sd.count }}')
+        labels.push('{{ sd.name }}')
+    {% endfor %}
+
+    {% for sa in stats_arrival %}
+        values1.push('{{ sa.count }}')
+        labels1.push('{{ sa.name }}')
+    {% endfor %}
+
+    window.onload = () => {
+      const ctx = document.getElementById('departureChart');
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '# of Occurrence',
+            data: values,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+       const ctz = document.getElementById('arrivalChart');
+
+      new Chart(ctz, {
+        type: 'bar',
+        data: {
+          labels: labels1,
+          datasets: [{
+            label: '# of Occurrence',
+            data: values1,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+</script>
+<h2>Stats of arrival count by destination</h2>
+<ul>
+    {% for sa in stats_arrival %}
+        <li><strong>{{ sa.name }}</strong>: {{ sa.count }}</li>
+    {% endfor %}
+</ul>
+<canvas id="arrivalChart"></canvas>
 {% endblock %}

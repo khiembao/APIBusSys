@@ -17,7 +17,8 @@ class BussAppAdminSite(admin.AdminSite):
 
     def stats_view(self, request):
         return TemplateResponse(request, 'admin/stats.html',{
-                    'stats': dao.count_trip_path_by_destination()
+                    'stats_departure': dao.count_departure_by_destination(),
+                    'stats_arrival': dao.count_arrival_by_destination()
             })
 
 admin_site = BussAppAdminSite(name='buss_app')
@@ -54,3 +55,4 @@ admin_site.register(Destination, DestinationAdmin)
 admin_site.register(Bus)
 admin_site.register(TripPath, TripPathAdmin)
 admin_site.register(Trip, TripAdmin)
+admin_site.register(SpecialOccasion)
