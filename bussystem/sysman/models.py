@@ -1,6 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
+
 # Create your models here.
+
+
+
+# class Article(models.Model):
+#     title = models.CharField('Title', max_length=200)
+#     text = CKEditor5Field('Text', config_name='extends')
 
 class User(AbstractUser):
     pass
@@ -36,9 +47,6 @@ class Bus(BaseModel):
     def __str__(self):
         return self.model
 
-    @property
-    def available_seat(self):
-        return 41
 #
 class TripPath(BaseModel):
     departure_destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='departure')
@@ -65,6 +73,19 @@ class Seat(models.Model):
     active = models.BooleanField(default=True)
     def __str__(self):
         return self.name
+
+    @receiver(post_save, sender=Bus)
+    def create_seats(sender, instance, created, **kwargs):
+        if created:
+            for seat in range(0, instance.capacity):
+                instance.seat_set.create()
+
+    # @receiver(post_save, sender=Bus)
+    # def selected_seat(sender, instance, selected, **kwargs):
+    #     if selected:
+    #         instance.capacity -= 1
+    #         instance.active = False
+    #         instance.capacity.save()
 # class Ticket(BaseModel):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)
 #     qr_image = models.CharField(max_length=100, null=True)

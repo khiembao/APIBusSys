@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils.safestring import mark_safe
-from sysman import dao
+from . import dao
 
 from .models import Destination, Bus, TripPath, SpecialOccasion, Seat, Trip
 from  ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -48,7 +48,8 @@ class TripAdmin(admin.ModelAdmin):
     )
     list_display = ['id', 'trip_depart_time', 'trip_arrive_time', 'bus', 'trip_path']
 
-
+class SeatAdmin(admin.ModelAdmin):
+    list_display = ['id', 'bus', 'active']
 
 # Register your models here.
 admin_site.register(Destination, DestinationAdmin)
@@ -56,3 +57,4 @@ admin_site.register(Bus)
 admin_site.register(TripPath, TripPathAdmin)
 admin_site.register(Trip, TripAdmin)
 admin_site.register(SpecialOccasion)
+admin_site.register(Seat, SeatAdmin)
