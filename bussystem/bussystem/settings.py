@@ -42,8 +42,24 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'rest_framework',
     'drf_yasg',
+    'cloudinary',
+    'oauth2_provider'
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
+}
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name="dndsphusi",
+    api_key="941674516745466",
+    api_secret="RM6rELn1umTa7B9ZyMvz_954At0"
+)
 
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -142,6 +158,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CLIENT_ID = ''
+CLIENT_SECRET = ''
+
+# OAUTH2_PROVIDER = {
+#     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+# }
 
 customColorPalette = [
     {

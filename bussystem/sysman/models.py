@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
@@ -14,11 +15,8 @@ from django_ckeditor_5.fields import CKEditor5Field
 #     text = CKEditor5Field('Text', config_name='extends')
 
 class User(AbstractUser):
-    # avatar = CloudinaryField('avatar', null=True)
+    avatar = CloudinaryField('avatar', null=True)
 
-
-    def __str__(self):
-        return self.email
 
 
 class BaseModel(models.Model):

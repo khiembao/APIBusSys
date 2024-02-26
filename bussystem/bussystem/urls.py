@@ -39,6 +39,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('', include('sysman.urls')),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('admin/', admin_site.urls),
     path("ckeditor5/", include('django_ckeditor_5.urls'), name="ck_editor_5_upload_file"),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

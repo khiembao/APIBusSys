@@ -1,4 +1,4 @@
-from .models import Destination, TripPath, Bus, User
+from .models import Destination, TripPath, Bus, User, Trip, Seat, Ticket
 from rest_framework import serializers
 
 class BusSerializer(serializers.ModelSerializer):
@@ -19,9 +19,24 @@ class DestinationSerializer(serializers.ModelSerializer):
         model = Destination
         fields = '__all__'
 
+class TripSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trip
+        fields = '__all__'
+
+class SeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Seat
+        fields = '__all__'
+
 class TripPathSerializer(serializers.ModelSerializer):
     class Meta:
         model = TripPath
+        fields = '__all__'
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
