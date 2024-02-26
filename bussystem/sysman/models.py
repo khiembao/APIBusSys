@@ -14,7 +14,11 @@ from django_ckeditor_5.fields import CKEditor5Field
 #     text = CKEditor5Field('Text', config_name='extends')
 
 class User(AbstractUser):
-    pass
+    # avatar = CloudinaryField('avatar', null=True)
+
+
+    def __str__(self):
+        return self.email
 
 
 class BaseModel(models.Model):
@@ -65,31 +69,37 @@ class Trip(models.Model):
     trip_path = models.ForeignKey(TripPath, null=True, on_delete=models.CASCADE)
     bus = models.OneToOneField(Bus, on_delete=models.CASCADE)
     def __str__(self):
-        return f"{self.trip_path}"
+        return f"{self.trip_path}, Trip depart at: {self.trip_depart_time}, Trip arrive at: {self.trip_arrive_time}, {self.bus}"
 
 class Seat(models.Model):
     name = models.CharField(max_length=50, null=True)
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
-    def __str__(self):
-        return self.name
 
     @receiver(post_save, sender=Bus)
     def create_seats(sender, instance, created, **kwargs):
         if created:
             for seat in range(0, instance.capacity):
                 instance.seat_set.create()
-
+    def __str__(self):
+        return f"{self.id}, {self.bus}"
     # @receiver(post_save, sender=Bus)
     # def selected_seat(sender, instance, selected, **kwargs):
     #     if selected:
     #         instance.capacity -= 1
     #         instance.active = False
     #         instance.capacity.save()
-# class Ticket(BaseModel):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     qr_image = models.CharField(max_length=100, null=True)
-#     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-#
+class Ticket(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    qr_code = models.CharField(max_length=100, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.trip}, {self.seat}"
+    class Meta:
+        unique_together = ('trip', 'seat')
+
+
 
 

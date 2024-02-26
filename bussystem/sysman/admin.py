@@ -4,7 +4,7 @@ from django.urls import path
 from django.utils.safestring import mark_safe
 from . import dao
 
-from .models import Destination, Bus, TripPath, SpecialOccasion, Seat, Trip
+from .models import Destination, Bus, TripPath, SpecialOccasion, Seat, Trip, Ticket, User
 from  ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 class BussAppAdminSite(admin.AdminSite):
@@ -58,3 +58,5 @@ admin_site.register(TripPath, TripPathAdmin)
 admin_site.register(Trip, TripAdmin)
 admin_site.register(SpecialOccasion)
 admin_site.register(Seat, SeatAdmin)
+admin_site.register(Ticket)
+admin_site.register(User)
