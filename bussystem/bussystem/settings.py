@@ -57,8 +57,8 @@ import cloudinary
 
 cloudinary.config(
     cloud_name="dndsphusi",
-    api_key="941674516745466",
-    api_secret="RM6rELn1umTa7B9ZyMvz_954At0"
+    api_key="",
+    api_secret=""
 )
 
 import pymysql
@@ -159,8 +159,8 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CLIENT_ID = '9BMYotvychUgMLL3Q496FYkvbRdN9wmZjlppF4T4'
-CLIENT_SECRET = 'jPmACN4kH1r4tUDUQyIjziX8bpfcSLfCgkh1dHmGqnhD3HIVP3OJiLC6FT166RIgiyCM0cPRaytzUUk8znagZ0DwOplhTrahm4ozHipM6x3co6XKrLNVmBKcUL0RIJSU'
+CLIENT_ID = ''
+CLIENT_SECRET = ''
 
 # OAUTH2_PROVIDER = {
 #     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'

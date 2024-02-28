@@ -26,18 +26,10 @@ class TripPathViewSet(viewsets.ViewSet, generics.ListAPIView):
         return Response(serializers.DestinationSerializer(departure, many=True, context={'request': request}).data,
                         status=status.HTTP_200_OK)
 
-class TicketViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView, generics.CreateAPIView):
+class TicketViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView, generics.UpdateAPIView):
     queryset = Ticket.objects.all()
     serializer_class = serializers.TicketSerializer
-    def get_permissions(self):
-        if self.action.__eq__('current_user'):
-            return [permissions.IsAuthenticated()]
 
-        return [permissions.AllowAny()]
-
-    @action(methods=['get'], url_name='current-user', detail=False)
-    def current_user(self, request):
-        return Response(serializers.TicketSerializer(request.user).data)
 
 
 
@@ -75,10 +67,16 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
     parser_classes = [parsers.MultiPartParser]
 
     def get_permissions(self):
-        if self.action.__eq__('current_user'):
+        if self.action in ['add_ticket', 'current_user']:
             return [permissions.IsAuthenticated()]
 
         return [permissions.AllowAny()]
-    @action(methods=['get'], url_name='current-user', detail=False)
+    @action(methods=['get'], url_name='current_user', detail=False)
     def current_user(self, request):
         return Response(serializers.UserSerializer(request.user).data)
+
+    @action(methods=['post'], url_path='add_ticket', detail=True)
+    def add_ticket(self, request, pk):
+        t = Ticket.objects.create(user=self.get_object(), qr_code=request.data.get('qr_code'), trip=request.data.get('trip'), seat=request.data.get('seat'))
+
+        return Response(serializers.Ticket(t).data, status=status.HTTP_201_CREATED)
