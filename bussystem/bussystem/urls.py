@@ -27,7 +27,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Course API",
+        title="Bus API",
         default_version='v1',
         description="APIs for Bus system",
         contact=openapi.Contact(email="wert.kb@gmail.com"),

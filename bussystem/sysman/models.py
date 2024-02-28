@@ -59,7 +59,7 @@ class TripPath(BaseModel):
         unique_together = ('departure_destination', 'arrival_destination')
 
     def __str__(self):
-        return f"{self.departure_destination} - {self.arrival_destination}"
+        return f"{self.departure_destination} - {self.arrival_destination} - {self.price}"
 
 class Trip(models.Model):
     trip_depart_time = models.DateTimeField(null=True, blank=True)

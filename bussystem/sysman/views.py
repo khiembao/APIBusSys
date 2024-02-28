@@ -5,8 +5,8 @@ from rest_framework import viewsets, generics, parsers, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from . import serializers, paginators
-from .models import Destination, TripPath, User, Bus, Trip
+from . import serializers, paginators, perms
+from .models import Destination, TripPath, User, Bus, Trip, Ticket
 
 
 class DestinationViewSet(viewsets.ViewSet, generics.ListAPIView):
@@ -21,10 +21,25 @@ class TripPathViewSet(viewsets.ViewSet, generics.ListAPIView):
 
     @action(methods=['get'], detail=True)
     def departure(self, request, pk):
-        departure = self.get_object().departure_destination_set.filter(active=True).all()
+        departure = self.get_object().departure_set.filter(active=True).all()
 
         return Response(serializers.DestinationSerializer(departure, many=True, context={'request': request}).data,
                         status=status.HTTP_200_OK)
+
+class TicketViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView, generics.CreateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = serializers.TicketSerializer
+    def get_permissions(self):
+        if self.action.__eq__('current_user'):
+            return [permissions.IsAuthenticated()]
+
+        return [permissions.AllowAny()]
+
+    @action(methods=['get'], url_name='current-user', detail=False)
+    def current_user(self, request):
+        return Response(serializers.TicketSerializer(request.user).data)
+
+
 
 
 

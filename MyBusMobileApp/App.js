@@ -1,26 +1,33 @@
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import { ActivityIndicator } from "react-native";
-import { useEffect, useState } from "react/cjs/react.production.min";
+// import { ActivityIndicator } from "react-native";
+// import { useEffect, useState } from "react/cjs/react.production.min";
 import Home from "./components/Home/Home";
-import Login from "./components/User/Login";
+// import Login from "./components/User/Login";
 import API, { endpoints } from "./configs/API";
 import React, { useReducer } from 'react'
-import Lesson from "./components/Lesson/Lesson";
-import LessonDetails from "./components/Lesson/LessonDetails";
-import MyContext from "./configs/MyContext";
-import MyUserReducer from "./reducers/MyUserReducer";
-import Logout from "./components/User/Logout";
-import Register from "./components/User/Register";
+// import Lesson from "./components/Lesson/Lesson";
+// import LessonDetails from "./components/Lesson/LessonDetails";
+// import MyContext from "./configs/MyContext";
+// import MyUserReducer from "./reducers/MyUserReducer";
+// import Logout from "./components/User/Logout";
+// import Register from "./components/User/Register";
 
+const Drawer = createDrawerNavigator();
 
 const App = () => {
+    return (
+        <NavigationContainer>
+            <Drawer.Navigator>
+                <Drawer.Screen name="Home" component={Home}/>
+                {/* <Drawer.Screen name="Login" component={Login}/> */}
+            </Drawer.Navigator>
+        </NavigationContainer>
 
+    );
 }
 
-const MyDrawerItem = (props) => {
 
-}
 
 export default App;
 
